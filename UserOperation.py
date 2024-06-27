@@ -15,3 +15,17 @@ UPDATE User SET approved = ?, Block = ? WHERE id = ?
     conn.close()
     return True
 
+# Update order isApproved status
+def updateOrderAccess(id, approved):
+
+    conn=sqlite3.connect("my_medicalShop.db")
+    cursor= conn.cursor()
+
+    cursor.execute("""
+UPDATE Orders SET isApproved = ? WHERE id = ?
+""", (approved, id))
+    
+    conn.commit()
+    conn.close()
+    return True
+
