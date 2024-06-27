@@ -78,4 +78,22 @@ def getAllProducts():
     return json.dumps(productJson)
 
 
-# print(getAllProducts())
+def getAllOrders():
+    conn=sqlite3.connect("my_medicalShop.db")
+    cursor= conn.cursor()
+    cursor.execute("SELECT * FROM Orders")
+    orders = cursor.fetchall()
+    conn.close()
+    
+    orderJson = []
+    for order in orders:
+        tempOrder = {
+            "id": order[0],
+            "date": order[1],
+            "itemId": order[2],
+            "quantity": order[3],
+            "venderId": order[4],
+            "isApproved": order[5]
+        }
+        orderJson.append(tempOrder)
+    return json.dumps(orderJson)

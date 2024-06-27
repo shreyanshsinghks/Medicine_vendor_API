@@ -37,7 +37,18 @@ CREATE TABLE  IF NOT EXISTS Products (
 );
 
 ''')
-
+    # Order table with  id, date, itemId, quantity, venderId
+    cursor.execute('''
+                   CREATE TABLE IF NOT EXISTS Orders (
+                     id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        date DATE,
+                        itemId INTEGER,
+                        quantity INTEGER,
+                        venderId INTEGER,
+                        isApproved INTEGER
+                     );
+                     ''')
+    # For approved 0 - not approved, 1- approved, 2- rejected
 
 
     conn.commit()
@@ -74,6 +85,22 @@ VALUES
     (?,?, ?, ?,?, ?)
     
 """,(None, name, price, category, stock, 1))
+    
+    conn.commit()
+    conn.close()
+    return True
+
+
+# Code for creating order
+def createOrder(itemId, quantity, venderId):
+    conn=sqlite3.connect("my_medicalShop.db")
+    cursor= conn.cursor()
+    cursor.execute("""
+INSERT INTO Orders (id, date, itemId, quantity, venderId, isApproved)
+VALUES 
+    (?,?, ?, ?,?, ?)
+    
+""",(None, date.today(), itemId, quantity, venderId, 0))
     
     conn.commit()
     conn.close()
